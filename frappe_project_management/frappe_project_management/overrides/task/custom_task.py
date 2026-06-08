@@ -99,7 +99,8 @@ class CustomTask(Task):
         try:
             response = requests.put(update_doc_url, json = data, headers = headers, timeout = 30)
             if response.status_code == 200:
-                frappe.msgprint("{0} is updated in ERP Aim:  {1}".format(field_name, self.custom_erp_aim))
+                # frappe.msgprint("{0} is updated in ERP Aim:  {1}".format(field_name, self.custom_erp_aim))
+                pass
             else:
                 frappe.msgprint("{0} is updated in ERP Aim:  {1}".format(field_name, self.custom_erp_aim))
                 frappe.msgprint(f"Sync failed. Status Code: {response.status_code}")
