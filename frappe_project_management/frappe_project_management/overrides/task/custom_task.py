@@ -54,7 +54,7 @@ class CustomTask(Task):
                 "due_date": self.exp_end_date
             }
             response = requests.post(
-                create_doctype_url, 
+                create_doc_url, 
                 json = data,
                 headers = headers,
                 timeout = 30
