@@ -5,9 +5,12 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "generic_api_section",
   "url",
   "api_key",
-  "api_secret"
+  "api_secret",
+  "section_break_gall",
+  "developers_api"
  ],
  "fields": [
   {
@@ -24,13 +27,28 @@
    "fieldname": "url",
    "fieldtype": "Data",
    "label": "URL"
+  },
+  {
+   "fieldname": "generic_api_section",
+   "fieldtype": "Section Break",
+   "label": "Generic API"
+  },
+  {
+   "fieldname": "section_break_gall",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "developers_api",
+   "fieldtype": "Table",
+   "label": "Developers API",
+   "options": "Developers API"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-06-03 16:16:34.130064",
+ "modified": "2026-06-05 11:06:54.855619",
  "modified_by": "Administrator",
  "module": "Frappe Project Management",
  "name": "ERP Aim Settings",
