@@ -8,9 +8,10 @@ class CustomTask(Task):
         self.create_erp_aim()
     
     def before_save(self):
-        self.update_erp_aim()
-        if not self.exp_end_date:
-            frappe.msgprint("Expeceted End Date of Task is Missing")
+        if not self.is_new():
+            self.update_erp_aim()
+            if not self.exp_end_date:
+                frappe.msgprint("Expeceted End Date of Task is Missing")
     def cubezix_api_details(self):
         try:
             erp_aim = frappe.get_doc("ERP Aim Settings","ERP Aim Settings")
@@ -79,7 +80,7 @@ class CustomTask(Task):
         if self.has_value_changed("status"):
             self.send_update_request("status", self.status)
         if self.has_value_changed("priority"):
-            self.has_value_changed("priority", self.priority)
+            self.send_update_request("priority", self.priority)
         if self.has_value_changed("exp_end_date"):
             self.send_update_request("due_date", self.exp_end_date)
     
