@@ -43,6 +43,7 @@ class CustomTask(Task):
             url, api_key, api_secret, headers = self.cubezix_api_details()
             create_doc_url = url + "/ERP Aim"
             customer = frappe.db.get_value("Project", self.project, "customer")
+            custom_assigned_to_full_name = frappe.db.get_value("User",self.custom_assigned_to, "full_name")
             data = {
                 "customer": customer,
                 "subject": self.subject,
@@ -50,7 +51,7 @@ class CustomTask(Task):
                 "progress_status": "Pending",
                 "priority": self.priority,
                 "description": self.description,
-                "assigned_too": self.custom_assigned_to,
+                "assigned_too": custom_assigned_to_full_name,
                 "due_date": self.exp_end_date
             }
             response = requests.post(
@@ -76,7 +77,8 @@ class CustomTask(Task):
         if self.has_value_changed("description"):
             self.send_update_request("description", self.description)
         if self.has_value_changed("custom_assigned_to"):
-            self.send_update_request("assigned_too", self.custom_assigned_to)
+            custom_assigned_to_full_name = frappe.db.get_value("User",self.custom_assigned_to, "full_name")
+            self.send_update_request("assigned_too", custom_assigned_to_full_name)
         if self.has_value_changed("status"):
             self.send_update_request("status", self.status)
         if self.has_value_changed("priority"):
