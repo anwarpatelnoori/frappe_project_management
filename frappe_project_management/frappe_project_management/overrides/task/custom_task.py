@@ -63,7 +63,8 @@ class CustomTask(Task):
             if response.status_code == 200:
                 response_json = response.json()
                 if "data" in response_json and "name" in response_json["data"]:
-                    frappe.db.set_value("Task", self.name, "custom_erp_aim", response_json["data"]["name"])
+                    erp_aim_id = "https://erp.cubezix.com/app/erp-aim/" + response_json["data"]["name"]
+                    frappe.db.set_value("Task", self.name, "custom_erp_aim", erp_aim_id)
                     
                 frappe.msgprint("ERP Aim is created in CubeZix ERP")
             else:
@@ -89,22 +90,19 @@ class CustomTask(Task):
 
     def send_update_request(self, field_name, field_value):
         url, api_key, api_secret, headers = self.cubezix_api_details()
-        update_doc_url = f'{url}/ERP Aim/{self.custom_erp_aim}'
+        erp_aim_id = self.custom_erp_aim.split("/")[-1]
+        update_doc_url = f'{url}/ERP Aim/{erp_aim_id}'
         data = {
             "doctype": "ERP Aim",
-            "name": self.custom_erp_aim,
+            "name": erp_aim_id,
             field_name: field_value
         }
         if field_name == "status" and field_value == "Completed":
-            data["closure_comments"] = "Completed"
+            data["closure_comments"] = self.custom_closure_comments
             data["resolved_on"] =  str(frappe.utils.now_datetime())
         try:
             response = requests.put(update_doc_url, json = data, headers = headers, timeout = 30)
-            if response.status_code == 200:
-                # frappe.msgprint("{0} is updated in ERP Aim:  {1}".format(field_name, self.custom_erp_aim))
-                pass
-            else:
-                frappe.msgprint("{0} is updated in ERP Aim:  {1}".format(field_name, self.custom_erp_aim))
+            if response.status_code != 200:
                 frappe.msgprint(f"Sync failed. Status Code: {response.status_code}")
                 frappe.log_error(title="ERP Aim Response",message=f"{response.status_code}\n{response.text}")
         except Exception:
