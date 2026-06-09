@@ -90,8 +90,9 @@ class CustomTask(Task):
 
     def send_update_request(self, field_name, field_value):
         url, api_key, api_secret, headers = self.cubezix_api_details()
-        erp_aim_id = self.custom_erp_aim.split("/")[-1]
-        update_doc_url = f'{url}/ERP Aim/{erp_aim_id}'
+        if self.custom_erp_aim:
+            erp_aim_id = self.custom_erp_aim.split("/")[-1]
+            update_doc_url = f'{url}/ERP Aim/{erp_aim_id}'
         data = {
             "doctype": "ERP Aim",
             "name": erp_aim_id,
