@@ -93,21 +93,21 @@ class CustomTask(Task):
         if self.custom_erp_aim:
             erp_aim_id = self.custom_erp_aim.split("/")[-1]
             update_doc_url = f'{url}/ERP Aim/{erp_aim_id}'
-        data = {
-            "doctype": "ERP Aim",
-            "name": erp_aim_id,
-            field_name: field_value
-        }
-        if field_name == "status" and field_value == "Completed":
-            data["closure_comments"] = self.custom_closure_comments
-            data["resolved_on"] =  str(frappe.utils.now_datetime())
-        try:
-            response = requests.put(update_doc_url, json = data, headers = headers, timeout = 30)
-            if response.status_code != 200:
-                frappe.msgprint(f"Sync failed. Status Code: {response.status_code}")
-                frappe.log_error(title="ERP Aim Response",message=f"{response.status_code}\n{response.text}")
-        except Exception:
-            frappe.log_error(title = f"ERP Aim Update Failed: {self.custom_erp_aim}", message = frappe.get_traceback())
+            data = {
+                "doctype": "ERP Aim",
+                "name": erp_aim_id,
+                field_name: field_value
+            }
+            if field_name == "status" and field_value == "Completed":
+                data["closure_comments"] = self.custom_closure_comments
+                data["resolved_on"] =  str(frappe.utils.now_datetime())
+            try:
+                response = requests.put(update_doc_url, json = data, headers = headers, timeout = 30)
+                if response.status_code != 200:
+                    frappe.msgprint(f"Sync failed. Status Code: {response.status_code}")
+                    frappe.log_error(title="ERP Aim Response",message=f"{response.status_code}\n{response.text}")
+            except Exception:
+                frappe.log_error(title = f"ERP Aim Update Failed: {self.custom_erp_aim}", message = frappe.get_traceback())
 
                 
 
