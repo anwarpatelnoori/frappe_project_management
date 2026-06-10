@@ -173,7 +173,7 @@
    "name": "Task-custom_erp_aim",
    "no_copy": 0,
    "non_negative": 0,
-   "options": null,
+   "options": "URL",
    "owner": "anwar.patel@cubezixone.com",
    "permlevel": 0,
    "placeholder": null,
