@@ -12,6 +12,7 @@ class CustomTask(Task):
             self.update_erp_aim()
             if not self.exp_end_date:
                 frappe.msgprint("Expeceted End Date of Task is Missing")
+    
     def cubezix_api_details(self):
         try:
             erp_aim = frappe.get_doc("ERP Aim Settings","ERP Aim Settings")
@@ -39,6 +40,8 @@ class CustomTask(Task):
 
     
     def create_erp_aim(self):
+        if frappe.session.user == "mehndi.raza@cubezix.com":
+            return
         try:
             url, api_key, api_secret, headers = self.cubezix_api_details()
             create_doc_url = url + "/ERP Aim"
@@ -89,6 +92,8 @@ class CustomTask(Task):
     
 
     def send_update_request(self, field_name, field_value):
+        if frappe.session.user == "mehndi.raza@cubezix.com":
+            return
         url, api_key, api_secret, headers = self.cubezix_api_details()
         if self.custom_erp_aim:
             erp_aim_id = self.custom_erp_aim.split("/")[-1]
